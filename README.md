@@ -1,6 +1,6 @@
 # Usage
-=========
 > npm install
+
 > npm run start
 
 在浏览器输入localhost:8080打开游戏

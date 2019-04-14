@@ -5,24 +5,35 @@ const config = require('../config/config')
 import * as initmap from '../map/initmap'
 import * as load from '../utils/load'
 import * as animation from './animation'
-
-export let Level = null;
+import {setLevel} from '../utils/click'
+export let Level = null; // 当前的关卡
 /**
  * 切换关卡，流程：重新渲染关卡背景和和人物、场景
  * @param {关系} level 
  */
 export default function switchLevel(stage,level) {
+  setLevel(level);
   switch(level) {
     case 0:
       Level = 0;
       toStartScreen(stage);
       break;
-    default:
-      Level = level;
+    case 4: // 通关
       load.loadResources(level,(name,progress) => {
         console.log(name,'is loading...',progress+'%')
       },() => {
-        to(stage,level);
+        passLevel(stage);
+      })
+      break;
+    default:
+      Level = level;
+      setLevel(5); // 设置为正在加载
+      let w = config.global.cellSize*3;
+      initmap.loading(stage,w,0);
+      load.loadResources(level,(name,progress) => {
+        initmap.loading(stage,w,progress)
+      },() => {
+        initmap.loading(stage,w,100);
       })
   }
 }
@@ -31,9 +42,13 @@ function toStartScreen(stage) {
   initmap.initGameStartScreen(stage);
 }
 
-function to(stage,level) {
+export function to(stage,level) {
   initmap.initBackground(stage, level);
   initmap.initGameItems(stage,level)
+}
+
+function passLevel(stage) {
+  initmap.initPassLevel(stage);
 }
 
 /**

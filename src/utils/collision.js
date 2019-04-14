@@ -4,7 +4,8 @@ const types = require('../config/types')
 
 export function isCollideRole(x,y) {
   if(map[x][y].type !== types.celltypes.BACKGROUND && 
-    map[x][y].type !== types.celltypes.BOX) return null;
+    map[x][y].type !== types.celltypes.BOX
+    && map[x][y].type !== types.celltypes.END) return null;
   else return map[x][y].type;
 }
 

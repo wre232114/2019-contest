@@ -6,6 +6,8 @@ import switchLevel from './play/controller'
 import click from './utils/click';
 import {animateFrame} from './play/animation'
 
+import {loading} from './map/initmap'
+
 let app = new Application({width: config.global.width,height:config.global.height, antialias: true})
 // app.renderer.view.style.position = "absolute";
 // app.renderer.view.style.display = "block";
@@ -16,12 +18,13 @@ document.body.appendChild(app.view)
 
 // loader.add("./assets/items/brick_grey.png")
 //         .load(setup);
-
+let w = config.global.cellSize*3;
+      loading(app.stage,w,0);
 load.loadResources(0,function(name,progress){
-  console.log(name,'is loading...',progress+'%')
+  loading(app.stage,w,progress);
 }, function() {
   console.log('resources loaded!')
-  setup();
+  setTimeout(()=> setup(),500); // 延迟加载
 })
 function setup() {
   // let brick = new PIXI.Sprite(resources["./assets/items/brick_grey.png"].texture)

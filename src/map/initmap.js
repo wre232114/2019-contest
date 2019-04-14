@@ -1,11 +1,12 @@
 const config = require('../config/config')
 const types = require('../config/types')
 import * as drawUtils from '../utils/draw'
-import {Text,TextStyle} from '../config/aliases'
+import {Text,TextStyle,Graphics} from '../config/aliases'
 
 // 游戏主角精灵
 export let role=null;
-
+// 游戏通关分组
+export let passLevelScreen = null;
 // 地图
 export let map = [];
 // 地图初始化
@@ -34,8 +35,8 @@ export function initGameStartScreen(stage) {
   // 绘制背景
   let bg = drawUtils.getSprite(0,'bg_castle')
   drawUtils.drawSprite(stage,bg,0,0,config.global.width,config.global.height);
-  let brickGrey = drawUtils.getSprite(1,'brick_grey')
-  let brickRed = drawUtils.getSprite(2,"brick_red")
+  let brickGrey = drawUtils.getSprite(0,'brick_grey')
+  let brickRed = drawUtils.getSprite(0,"brick_red")
   brickGrey.rotation = 0.5;
   brickRed.rotation = -0.3;
 
@@ -112,5 +113,46 @@ export function initGameItems(stage,level) {
     sprite: role
   }
   drawUtils.drawSprite(stage,role,roleX,roleY,roleconf.width,roleconf.height);
+
+  // 绘制终点
+  let endConf = config['level'+level].end;
+  let end = drawUtils.getSprite(level,endConf.name);
+  map[endConf.x][endConf.y] = {
+    type:types.celltypes.END,
+    sprite:end
+  }
+  drawUtils.drawSprite(stage,end,endConf.x*cellSize,endConf.y*cellSize);
+}
+
+/**
+ * 初始化通关的提示
+ * @param {} stage 
+ */
+export function initPassLevel(stage) {
+  // 绘制模糊背景
+  drawUtils.drawRect(stage,0,0,config.global.width,config.global.height,0.5);
+  let panel = drawUtils.getSprite(4,'grey_panel');
+  let posX = (config.global.width - panel.width*2)/2,
+    posY = (config.global.height-panel.height*2)/2;
+  drawUtils.drawSprite(stage,panel,posX,posY,panel.width*2,panel.height*2)
+
+  // 绘制提示
+  drawUtils.drawTips(stage,"通关成功！\n点击屏幕进入下一关~");
+}
+
+export function loading(stage,width, progress) {
+  drawUtils.clear(stage);
+  drawUtils.drawTips(stage,'小提示：点击主角旁边的方格可以移动主角哟~\n\n\n\n点击屏幕继续~',
+  null,null,'white')
+  let rectangle = new Graphics()
+      rectangle.beginFill(0x32CD32);
+      rectangle.drawRect(config.global.cellSize*2,config.global.cellSize
+        *5,width * (progress/100),config.global.cellSize/4)
+      rectangle.endFill();
+      stage.addChild(rectangle);
+      
+  drawUtils.drawTips(stage,progress+'%',config.global.cellSize
+  *5+30,config.global.cellSize
+  *5,'white');
 }
 export { initBackground }

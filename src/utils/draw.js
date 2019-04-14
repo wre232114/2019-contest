@@ -1,6 +1,6 @@
 // 工具库，封装了一些像画布上显示内容的函数
 
-import {resources,Sprite,Graphics,ParticleContainer} from '../config/aliases'
+import {resources,Sprite,Text,Graphics,ParticleContainer} from '../config/aliases'
 const images = require('../config/images')
 const config = require('../config/config')
 const types = require('../config/types')
@@ -14,10 +14,10 @@ import {resetMap} from '../map/initmap'
  * @param {Y坐标} y 
  */
 let drawSprite = function drawSprite(container,sprite,x,y,w=config.sprite.width,h=config.sprite.height) {
-  sprite.x = x;
-  sprite.y = y;
-  sprite.width = w;
-  sprite.height = h;
+  sprite.x = x||sprite.x;
+  sprite.y = y||sprite.y;
+  sprite.width = w||sprite.width;
+  sprite.height = h||sprite.height;
   container.addChild(sprite);
 }
 
@@ -118,4 +118,26 @@ let drawItems = function(stage,level,items,type,map) {
   stage.addChild(container);
 }
 
+export function drawRect(stage,x,y,w,h,opacity,color) {
+  let rectangle = new Graphics();
+  rectangle.beginFill(color||0x000000);
+  rectangle.alpha = opacity||1;
+  rectangle.drawRect(x,y,w,h)
+  rectangle.endFill();
+  stage.addChild(rectangle);
+}
+
+export function drawTips(stage, message,x,y,color) {
+  let tip = new Text()
+  tip.text = message;
+  tip.style = {
+    fontStyle: 'Italic',
+    fontSize: 15,
+    fill: color||"black",
+    align: 'center'
+  }
+  let tipPosX = x||(config.global.width - tip.width)/2,
+    tipPosY= y||(config.global.height-tip.height) /2
+  drawSprite(stage,tip,tipPosX,tipPosY,tip.width,tip.height);
+}
 export { drawEdge,drawSprite,getSprite,clear,drawBackground, drawItems}

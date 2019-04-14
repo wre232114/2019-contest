@@ -9,8 +9,9 @@ let Application = PIXI.Application,
     ParticleContainer = PIXI.particles.ParticleContainer,
     Pixi = PIXI,
     Text = PIXI.Text,
-    TextStyle = PIXI.TextStyle
+    TextStyle = PIXI.TextStyle,
+    Container = PIXI.Container
 
 
 export {Application,loader,resources,Sprite,Graphics,ParticleContainer,Pixi,
-    Text,TextStyle}
+    Text,TextStyle,Container}

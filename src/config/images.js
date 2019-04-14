@@ -5,7 +5,14 @@ let resource = {
     brick_grey: './assets/items/brick_grey.png',
     brick_red: './assets/items/brick_red.png',
     wooden_box: './assets/items/boxAlt.png',
-    role: './assets/roles/racer_red.png'
+    role: './assets/roles/racer_red.png',
+    green_button: './assets/items/green_button.png',
+    number1: './assets/items/number1.png',
+    number2: './assets/items/number2.png',
+    number3: './assets/items/number3.png',
+    metalPanel_green: './assets/items/metalPanel_green.png',
+    red_check: './assets/items/red_check.png',
+    blue_boxTick: './assets/items/blue_boxTick.png'
   },
   level1: {
     brick_grey: './assets/items/brick_grey.png',

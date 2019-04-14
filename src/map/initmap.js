@@ -96,7 +96,11 @@ export function initGameItems(stage,level) {
   drawUtils.drawItems(stage,level,config['level'+level].blocks,types.celltypes.BLOCK,map);
   // 绘制箱子
   drawUtils.drawItems(stage,level,config['level'+level].boxes,types.celltypes.BOX,map);
-
+  let cellSize = config.global.cellSize;
+  // 绘制右上角的图标
+  let panel = drawUtils.getSprite(0,'blue_boxTick')
+  drawUtils.drawSprite(stage,panel,cellSize*6+cellSize/4,cellSize/4,cellSize/2,cellSize/2);
+  drawUtils.drawTips(stage,'面板',cellSize*6+cellSize/4,cellSize*3/4,'#FFFFFF')
   // 绘制主角
   if(!role) {
     role = drawUtils.getSprite(0, 'role');
@@ -105,7 +109,7 @@ export function initGameItems(stage,level) {
   }
   let roleconf = config['level'+level].role
   let roleX = roleconf.x,roleY = roleconf.y;
-  let cellSize = config.global.cellSize;
+  
   roleX = roleX*cellSize + (cellSize)/2;
   roleY = roleY*cellSize + (cellSize)/2;
   map[roleconf.x][roleconf.y] = {
@@ -151,8 +155,10 @@ export function loading(stage,width, progress) {
       rectangle.endFill();
       stage.addChild(rectangle);
       
-  drawUtils.drawTips(stage,progress+'%',config.global.cellSize
+  drawUtils.drawTips(stage,Math.floor(progress)+'%',config.global.cellSize
   *5+30,config.global.cellSize
   *5,'white');
 }
+
+
 export { initBackground }

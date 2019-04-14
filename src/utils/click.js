@@ -6,6 +6,7 @@ import * as initmap from '../map/initmap'
 const config = require('../config/config')
 import switchLevel from '../play/controller'
 import {isCollideRole, isCollideBox} from './collision'
+import {showGamePanel} from '../play/pause'
 
 let tempLevel = null;
 export function setLevel(level) {
@@ -67,11 +68,19 @@ function dealGameClick(stage,posX,posY) {
       move(posX,posY+1,types.direction.TOP);
     }
   }
+
+  // 如果点击了面板
+  if(posX == 6&&posY==0) {
+    showGamePanel(stage);
+    tempLevel = 6;
+  }
 }
 
+let panelLevel = 1;
 function dealScreenClick(stage,posX,posY,callback) {
   if(tempLevel == 0) {
-    switchLevel(stage,1);
+    showGamePanel(stage);
+    tempLevel = 6;
   } else if(tempLevel < 4) { // 如果是游戏中的点击
     dealGameClick(stage,posX,posY);
   } else if(tempLevel == 4) {
@@ -82,6 +91,26 @@ function dealScreenClick(stage,posX,posY,callback) {
   } else if(tempLevel == 5) { // 加载界面
     to(stage,Level); // 跳转到对应的关卡
     tempLevel = Level;
+  } else if(tempLevel = 6) { // 游戏面板
+    if(posY == 3) {
+      let cellSize = config.global.cellSize;
+      switch(posX) {
+        case 2:
+          panelLevel = 1;
+          showGamePanel(stage,cellSize/2,cellSize+cellSize/2);
+          break;
+        case 3:
+          panelLevel = 2;
+          showGamePanel(stage,cellSize+cellSize/2,cellSize+cellSize/2);
+          break;
+        case 4:
+          panelLevel = 3;
+          showGamePanel(stage,cellSize*2+cellSize/2,cellSize+cellSize/2);
+          break;
+      }
+    }else if(posY==4&&posX == 3) {
+      switchLevel(stage,panelLevel);
+    }
   }
   callback && callback(event);
 }

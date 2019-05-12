@@ -122,7 +122,6 @@ export default {
       // console.log(Level,event);
       let posX = Math.floor(event.offsetX / config.global.cellSize),
       posY = Math.floor(event.offsetY / config.global.cellSize);
-      console.log(event)
       dealScreenClick(stage,posX,posY,callback);
     },false)
 

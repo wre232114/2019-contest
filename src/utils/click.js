@@ -120,8 +120,9 @@ export default {
     // PC鼠标单击
     canvas.addEventListener('click',event => {
       // console.log(Level,event);
-      let posX = Math.floor(event.layerX / config.global.cellSize),
-      posY = Math.floor(event.layerY / config.global.cellSize);
+      let posX = Math.floor(event.offsetX / config.global.cellSize),
+      posY = Math.floor(event.offsetY / config.global.cellSize);
+      console.log(event)
       dealScreenClick(stage,posX,posY,callback);
     },false)
 

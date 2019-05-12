@@ -3,7 +3,7 @@ const path = require('path')
 const CopyWebpackPlugin = require('copy-webpack-plugin')
 const config = {
   mode: 'development',
-  entry: './src/index.js',
+  entry: ["@babel/polyfill", './src/index.js'],
   output: {
     path: path.resolve(__dirname,'dist'),
     filename: 'pushbox.bundle.js'
@@ -15,6 +15,15 @@ const config = {
     rules: [{
       test: /(\.png)|(\.jpg)|(\.gif)$/,
       use: ['file-loader']
+    },
+    {
+      test: /\.m?js$/,
+      use: {
+        loader: 'babel-loader',
+        options: {
+          presets: ['@babel/preset-env']
+        }
+      }
     }]
   },
   plugins: [
